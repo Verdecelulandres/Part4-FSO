@@ -1,21 +1,7 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const app = require('./app');
 const config = require('./utils/config');
-const blogsRouter = require('./controllers/blogs');
+const logger = require('./utils/logger');
 
-const app = express();
-
-
-mongoose.connect(config.MONGODB_URI, { family: 4 })
-  .then(() => console.log('connected to Mongo'))
-  .catch();
-
-app.use(express.json());
-
-app.use('/api/blogs', blogsRouter);
-
-
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`);
+});
