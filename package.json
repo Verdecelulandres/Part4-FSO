@@ -1,0 +1,20 @@
+{
+  "name": "bloglist",
+  "version": "1.0.0",
+  "description": "Full stack open course part 4 excercise submissions",
+  "homepage": "https://github.com/Verdecelulandres/Part4-FSO#readme",
+  "bugs": {
+    "url": "https://github.com/Verdecelulandres/Part4-FSO/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Verdecelulandres/Part4-FSO.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
