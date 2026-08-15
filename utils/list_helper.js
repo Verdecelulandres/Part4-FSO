@@ -97,10 +97,32 @@ const mostBlogs = (blogs) => {
   return { author: maxAuthor, blogs: maxBlogs };
 }
 
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) {
+    return null;
+  }
+  let authors = new Map();
+  let maxLikes = 0;
+  let maxAuthor = '';
+  blogs.forEach(b => {
+    if (authors.has(b.author)) {
+      authors.set(b.author, (authors.get(b.author) + b.likes));
+    } else {
+      authors.set(b.author, b.likes);
+    }
+    if (authors.get(b.author) > maxLikes) {
+      maxLikes = authors.get(b.author);
+      maxAuthor = b.author;
+    }
+  });
+  return { author: maxAuthor, likes: maxLikes };
+}
+
 module.exports = {
   blogs,
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
