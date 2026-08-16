@@ -1,3 +1,5 @@
+const Blog = require('../models/blog');
+
 const blogs = [
   {
     _id: '5a422a851b54a676234d17f7',
@@ -87,8 +89,14 @@ const listWithOneBlog = [
   }
 ];
 
+const blogsInDB = async () => {
+  const blogs = await Blog.find({});
+  return blogs.map(b => b.toJSON());
+}
+
 module.exports = {
   blogs,
   equalLikeBlogs,
-  listWithOneBlog
+  listWithOneBlog,
+  blogsInDB
 }

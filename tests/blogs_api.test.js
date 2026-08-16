@@ -37,6 +37,26 @@ test('unique id is called id', async () => {
   assert(objectKeys.includes('id'));
 });
 
+test('correctly creates blog', async () => {
+  const newBlog = {
+    title: 'cincuentaycuatro',
+    author: 'AndrewdaGreen',
+    url: 'jeje',
+    likes: 69,
+  };
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const blogsAfter = await helper.blogsInDB();
+  const targetBlog = blogsAfter.find(b => b.id === response.body.id);
+
+  assert.strictEqual(blogsAfter.length, helper.blogs.length + 1);
+  assert.deepStrictEqual(targetBlog, response.body);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
