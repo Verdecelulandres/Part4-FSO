@@ -97,6 +97,22 @@ test('blog without title or url props does not get saved', async () => {
 
 });
 
+test('correctly delete blog', async () => {
+  const blogsBefore = await helper.blogsInDB();
+
+  const blogToDelete = blogsBefore[0];
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204);
+
+  const blogsAfter = await helper.blogsInDB();
+  const blogIds = blogsAfter.map(b => b.id);
+
+  assert.strictEqual(blogsAfter.length, blogsBefore.length - 1);
+  assert(!blogIds.includes(blogToDelete.id));
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
