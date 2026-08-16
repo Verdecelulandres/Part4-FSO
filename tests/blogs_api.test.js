@@ -71,6 +71,32 @@ test('blog with no likes prop defaults to 0', async () => {
   assert.strictEqual(response.body.likes, 0);
 });
 
+test('blog without title or url props does not get saved', async () => {
+  const noTitleBlog = {
+    author: 'AndrewdaGreen',
+    url: 'jeje',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(noTitleBlog)
+    .expect(400);
+
+  const noUrlBlog = {
+    title: 'cincuentaycuatro',
+    author: 'AndrewdaGreen',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(noUrlBlog)
+    .expect(400);
+
+  const blogsAfter = await helper.blogsInDB();
+  assert.strictEqual(blogsAfter.length, helper.blogs.length);
+
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
