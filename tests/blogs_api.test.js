@@ -25,6 +25,18 @@ test('correct amount of blogs is returned', async () => {
   assert.strictEqual(result.body.length, helper.blogs.length);
 });
 
+test('unique id is called id', async () => {
+  const result = await api.get('/api/blogs');
+  const objectKeys = [];
+  result.body.forEach(b => {
+    const keys = Object.keys(b);
+    objectKeys.push(...keys);
+  });
+
+  assert(!objectKeys.includes('_id'));
+  assert(objectKeys.includes('id'));
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
