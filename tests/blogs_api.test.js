@@ -113,6 +113,20 @@ test('correctly delete blog', async () => {
   assert(!blogIds.includes(blogToDelete.id));
 });
 
+test('correctly update likes of a blog', async () => {
+  const blogsBefore = await helper.blogsInDB();
+  const blogToUpdate = blogsBefore[0];
+  const newLikes = { likes: (blogToUpdate.likes + 1) };
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(newLikes)
+    .expect(200);
+  const blogsAfter = await helper.blogsInDB();
+  const updatedBlog = blogsAfter.find(b => b.id === blogToUpdate.id);
+
+  assert.strictEqual(updatedBlog.likes, blogToUpdate.likes + 1);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
