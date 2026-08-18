@@ -12,6 +12,7 @@ loginRouter.post('/', async (request, response) => {
   if (!(user && isCorrectPwd)) {
     return response.status(401).json({ error: 'Invalid credentials' });
   }
+
   const tokenUser = {
     username: user.username,
     id: user._id
