@@ -1,4 +1,5 @@
 const blogsRouter = require('express').Router();
+const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog');
 const User = require('../models/user');
 
@@ -10,8 +11,18 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  const newBlog = request.body;
-  const user = await User.findOne({});
+  const { title, url, author, likes, token } = request.body;
+  const newBlog = {
+    title,
+    url,
+    author,
+    likes
+  };
+  const userFromToken = jwt.verify(token, process.env.SECRET);
+
+  const { username } = userFromToken;
+
+  const user = await User.findOne({ username });
   newBlog.user = user._id;
   const blog = new Blog(newBlog);
   const result = await blog.save();
