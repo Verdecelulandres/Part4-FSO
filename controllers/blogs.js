@@ -11,14 +11,14 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  const { title, url, author, likes, token } = request.body;
+  const { title, url, author, likes } = request.body;
   const newBlog = {
     title,
     url,
     author,
     likes
   };
-  const userFromToken = jwt.verify(token, process.env.SECRET);
+  const userFromToken = jwt.verify(request.token, process.env.SECRET);
 
   const { username } = userFromToken;
 
