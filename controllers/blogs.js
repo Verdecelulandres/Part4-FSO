@@ -33,7 +33,14 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id;
-  await Blog.findByIdAndDelete(id);
+  const userFromToken = jwt.verify(request.token, process.env.SECRET);
+
+  const blog = await Blog.findByIdAndDelete(id);
+
+  if (blog.user.toString() !== userFromToken.id.toString()) {
+    return response.status(403).json({ error: 'Only blog creator can delete it' });
+  }
+
   response.status(204).end();
 });
 
